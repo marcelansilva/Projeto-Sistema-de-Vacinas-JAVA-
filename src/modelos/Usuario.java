@@ -15,6 +15,49 @@ import java.util.GregorianCalendar;
 public class Usuario {
 
     /**
+     * @return the codigo
+     */
+    public int getCodigo() {
+        return codigo;
+    }
+
+    /**
+     * @param codigo the codigo to set
+     */
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
+
+    /**
+     * @return the status
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    /**
+     * @return the devento
+     */
+    public String getDevento() {
+        return devento;
+    }
+
+    /**
+     * @param devento the devento to set
+     */
+    public void setDevento(String devento) {
+        this.devento = devento;
+    }
+
+ 
+    /**
      * @return the prioridade
      */
     public String getPrioridade() {
@@ -135,6 +178,9 @@ public class Usuario {
     private String genero;
     private String estado;
     public String prioridade;
+    public String status;
+    public String devento;
+    private int codigo;
     
     
     

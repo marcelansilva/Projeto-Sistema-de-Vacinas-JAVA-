@@ -5,18 +5,32 @@
  */
 package telas;
 
+import dao.UsuarioDAO;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import modelos.Usuario;
+
 /**
  *
  * @author Hamilton
  */
 public class TelaConsulta extends javax.swing.JFrame {
 
-    /**
-     * Creates new form TelaConsulta
-     */
+
+    /*public TelaConsulta(List<Usuario> lista) {
+        this.lista = lista;
+        initComponents();
+        //setDados();
+    }*/
     public TelaConsulta() {
         initComponents();
+        listarValores();
     }
+
+    public List<Usuario> lista;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -29,27 +43,29 @@ public class TelaConsulta extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblUsuario = new javax.swing.JTable();
         btnEditar = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        tblUsuario.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        tblUsuario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Nome", "CPF", "Data de Nascimento", "Telefone", "Cidade", "Estado", "Gênero", "Prioridade", "Status", "Data do Evento"
+                "Código", "Nome", "CPF", "Data de Nascimento", "Telefone", "Cidade", "Estado", "Gênero", "Prioridade", "Status", "Data de Vacina"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -60,64 +76,48 @@ public class TelaConsulta extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(150);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(50);
-            jTable1.getColumnModel().getColumn(4).setPreferredWidth(50);
-            jTable1.getColumnModel().getColumn(5).setResizable(false);
-            jTable1.getColumnModel().getColumn(5).setPreferredWidth(3);
-            jTable1.getColumnModel().getColumn(6).setPreferredWidth(50);
-            jTable1.getColumnModel().getColumn(7).setResizable(false);
-            jTable1.getColumnModel().getColumn(7).setPreferredWidth(50);
-            jTable1.getColumnModel().getColumn(8).setPreferredWidth(50);
-            jTable1.getColumnModel().getColumn(9).setPreferredWidth(50);
+        jScrollPane1.setViewportView(tblUsuario);
+        if (tblUsuario.getColumnModel().getColumnCount() > 0) {
+            tblUsuario.getColumnModel().getColumn(0).setPreferredWidth(30);
+            tblUsuario.getColumnModel().getColumn(1).setPreferredWidth(50);
+            tblUsuario.getColumnModel().getColumn(2).setResizable(false);
+            tblUsuario.getColumnModel().getColumn(4).setPreferredWidth(50);
+            tblUsuario.getColumnModel().getColumn(5).setPreferredWidth(50);
+            tblUsuario.getColumnModel().getColumn(6).setPreferredWidth(3);
+            tblUsuario.getColumnModel().getColumn(7).setPreferredWidth(50);
+            tblUsuario.getColumnModel().getColumn(8).setPreferredWidth(50);
+            tblUsuario.getColumnModel().getColumn(9).setPreferredWidth(50);
+            tblUsuario.getColumnModel().getColumn(10).setPreferredWidth(50);
         }
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, -4, 960, 330));
 
         btnEditar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 337, -1, -1));
 
         btnExcluir.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnExcluir, new org.netbeans.lib.awtextra.AbsoluteConstraints(118, 337, -1, -1));
 
         btnSair.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        btnSair.setText("Sair");
+        btnSair.setText("Voltar");
         btnSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSairActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(btnEditar)
-                .addGap(28, 28, 28)
-                .addComponent(btnExcluir)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnSair)
-                .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 865, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEditar)
-                    .addComponent(btnExcluir))
-                .addGap(18, 18, 18)
-                .addComponent(btnSair)
-                .addGap(4, 4, 4))
-        );
+        jPanel1.add(btnSair, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 420, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -138,8 +138,48 @@ public class TelaConsulta extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
-       this.dispose();
+       TelaInicial tinicial = new TelaInicial();
+        tinicial.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnSairActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        
+        int linhaSelecionada = this.tblUsuario.getSelectedRow();
+        String codigo = this.tblUsuario.getValueAt(linhaSelecionada, 0).toString();
+        
+        Usuario usuario = new Usuario();
+        usuario.setCodigo(Integer.parseInt(codigo));
+        
+        UsuarioDAO usuariodao = new UsuarioDAO();
+        usuariodao.excluirUsuario(usuario);
+        listarValores();
+        
+        
+       // ((DefaultTableModel) tblUsuario.getModel()).removeRow(tblUsuario.getSelectedRow());
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        // TODO add your handling code here:
+      
+       int linhaSelecionada = this.tblUsuario.getSelectedRow();
+
+        String codigo = this.tblUsuario.getValueAt(linhaSelecionada, 0).toString();
+        String nome = this.tblUsuario.getValueAt(linhaSelecionada, 1).toString();
+        String cpf = this.tblUsuario.getValueAt(linhaSelecionada, 2).toString();
+        String datanasc = this.tblUsuario.getValueAt(linhaSelecionada, 3) != null ? this.tblUsuario.getValueAt(linhaSelecionada, 3).toString() : "";
+        String telefone = this.tblUsuario.getValueAt(linhaSelecionada, 4).toString();
+        String cidade = this.tblUsuario.getValueAt(linhaSelecionada, 5).toString();
+        String estado = this.tblUsuario.getValueAt(linhaSelecionada, 6).toString();
+        String genero = this.tblUsuario.getValueAt(linhaSelecionada, 7).toString();
+        String prioridade = this.tblUsuario.getValueAt(linhaSelecionada, 8).toString();
+        String status = this.tblUsuario.getValueAt(linhaSelecionada, 9) != null ? this.tblUsuario.getValueAt(linhaSelecionada, 9).toString() : "";
+        String devento = this.tblUsuario.getValueAt(linhaSelecionada, 10) != null ? this.tblUsuario.getValueAt(linhaSelecionada, 10).toString() : "";
+    
+        
+        new TelaEditarCadastro(codigo, nome, cpf, datanasc, telefone, cidade, estado, genero, prioridade, status, devento).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnEditarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -182,6 +222,41 @@ public class TelaConsulta extends javax.swing.JFrame {
     private javax.swing.JButton btnSair;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblUsuario;
     // End of variables declaration//GEN-END:variables
+
+    private void listarValores() {
+        try {
+            UsuarioDAO usuariodao = new UsuarioDAO();
+
+            DefaultTableModel model = (DefaultTableModel) tblUsuario.getModel();
+            model.setNumRows(0);
+
+            ArrayList<Usuario> lista = usuariodao.ListarUsuarios();
+
+            for (int num = 0; num < lista.size(); num++) {
+                model.addRow(new Object[]{
+                    lista.get(num).getCodigo(),
+                    lista.get(num).getNome(),
+                    lista.get(num).getCpf(),
+                    lista.get(num).getNasc(),
+                    lista.get(num).getTelefone(),
+                    lista.get(num).getCidade(),
+                    lista.get(num).getEstado(),
+                    lista.get(num).getGenero(),
+                    lista.get(num).getPrioridade(),
+                    lista.get(num).getStatus(),
+                    lista.get(num).getDevento()
+                });
+
+            }
+
+        } catch (Exception erro) {
+            JOptionPane.showMessageDialog(null, "Listar Valores VIEW: " + erro);
+        }
+
+    }
+    
+    
+   
 }
