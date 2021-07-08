@@ -9,6 +9,7 @@ import dao.UsuarioDAO;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelos.Usuario;
@@ -28,6 +29,7 @@ public class TelaConsulta extends javax.swing.JFrame {
     public TelaConsulta() {
         initComponents();
         listarValores();
+
     }
 
     public List<Usuario> lista;
@@ -49,6 +51,7 @@ public class TelaConsulta extends javax.swing.JFrame {
         btnSair = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Consulta de Usuários");
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -78,7 +81,7 @@ public class TelaConsulta extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblUsuario);
         if (tblUsuario.getColumnModel().getColumnCount() > 0) {
-            tblUsuario.getColumnModel().getColumn(0).setPreferredWidth(30);
+            tblUsuario.getColumnModel().getColumn(0).setPreferredWidth(15);
             tblUsuario.getColumnModel().getColumn(1).setPreferredWidth(50);
             tblUsuario.getColumnModel().getColumn(2).setResizable(false);
             tblUsuario.getColumnModel().getColumn(4).setPreferredWidth(50);
@@ -138,31 +141,30 @@ public class TelaConsulta extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
-       TelaInicial tinicial = new TelaInicial();
+        TelaInicial tinicial = new TelaInicial();
         tinicial.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        
+
         int linhaSelecionada = this.tblUsuario.getSelectedRow();
         String codigo = this.tblUsuario.getValueAt(linhaSelecionada, 0).toString();
-        
+
         Usuario usuario = new Usuario();
         usuario.setCodigo(Integer.parseInt(codigo));
-        
+
         UsuarioDAO usuariodao = new UsuarioDAO();
         usuariodao.excluirUsuario(usuario);
         listarValores();
-        
-        
-       // ((DefaultTableModel) tblUsuario.getModel()).removeRow(tblUsuario.getSelectedRow());
+
+        // ((DefaultTableModel) tblUsuario.getModel()).removeRow(tblUsuario.getSelectedRow());
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
-      
-       int linhaSelecionada = this.tblUsuario.getSelectedRow();
+
+        int linhaSelecionada = this.tblUsuario.getSelectedRow();
 
         String codigo = this.tblUsuario.getValueAt(linhaSelecionada, 0).toString();
         String nome = this.tblUsuario.getValueAt(linhaSelecionada, 1).toString();
@@ -175,8 +177,7 @@ public class TelaConsulta extends javax.swing.JFrame {
         String prioridade = this.tblUsuario.getValueAt(linhaSelecionada, 8).toString();
         String status = this.tblUsuario.getValueAt(linhaSelecionada, 9) != null ? this.tblUsuario.getValueAt(linhaSelecionada, 9).toString() : "";
         String devento = this.tblUsuario.getValueAt(linhaSelecionada, 10) != null ? this.tblUsuario.getValueAt(linhaSelecionada, 10).toString() : "";
-    
-        
+
         new TelaEditarCadastro(codigo, nome, cpf, datanasc, telefone, cidade, estado, genero, prioridade, status, devento).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnEditarActionPerformed
@@ -256,7 +257,5 @@ public class TelaConsulta extends javax.swing.JFrame {
         }
 
     }
-    
-    
-   
+
 }

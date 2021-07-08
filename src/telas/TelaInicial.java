@@ -9,7 +9,7 @@ package telas;
 import java.util.List;
 import modelos.DadosUsuario;
 import modelos.Usuario;
-
+import java.awt.Toolkit;
 /**
  *
  * @author Hamilton
@@ -42,6 +42,8 @@ public class TelaInicial extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Sistema de Vacinação");
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jPanel1.setPreferredSize(new java.awt.Dimension(510, 370));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());

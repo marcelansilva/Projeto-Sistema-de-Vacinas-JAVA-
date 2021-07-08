@@ -98,6 +98,7 @@ public class TelaEditarCadastro extends javax.swing.JFrame {
         }
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Alteração de Cadastro");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         cmbGenA.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -230,21 +231,6 @@ public class TelaEditarCadastro extends javax.swing.JFrame {
             } else {
                 usuario.prioridade = "NORMAL";
             }
-
-            RandomDates randomdates = new RandomDates();
-            Date randomdate = randomdates.createRandomDate(2021, 2022);
-
-            Date dhj = GregorianCalendar.getInstance().getTime();
-
-            if (dhj.before(randomdate)) {
-
-                usuario.status = "VACINADO";
-            } else {
-
-                usuario.status = "NÃO VACINADO";
-            }
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            usuario.devento = LocalDate.of(randomdate.getYear(), randomdate.getMonth(), randomdate.getDay()).format(formatter);
 
             UsuarioDAO usuariodao = new UsuarioDAO();
             usuariodao.AlterarUsuario(usuario);
